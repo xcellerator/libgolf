@@ -10,6 +10,8 @@ This is an example for `arm32` shellcode - tested in a Raspberry Pi VM.
 * Run `arm32.bin` on a 32-bit ARM platform (e.g. a Raspberry Pi)
 * Check the return value with `echo $?` - it will be `0`
 
+![arm32](./arm32.png)
+
 ### Details
 
 In [`shellcode.h`](./shellcode.h) is ARM shellcode which calls `sys_exit` with return value `0`.

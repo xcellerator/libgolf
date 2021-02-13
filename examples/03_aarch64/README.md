@@ -10,6 +10,8 @@ This is an example for `aarch64` shellcode - tested on a PinePhone.
 * Run `aarch64.bin` on a 64-bit ARM platform (e.g. a PinePhone)
 * Check the return value with `echo $?` - it will be `0`
 
+![aarch64](./aarch64.png)
+
 ### Details
 
 In [`shellcode.h`](./shellcode.h) is ARM shellcode which calls `sys_exit` with return value `0`.

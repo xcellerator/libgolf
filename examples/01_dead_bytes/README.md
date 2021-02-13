@@ -10,6 +10,8 @@ This example illustrates how many fields in the ELF format the Linux loader will
 * Run `./dead_bytes.bin` (it will exit immediately)
 * Check the return value with `echo $?` (it exited cleanly with `0`)
 
+![dead bytes](./dead_bytes.png)
+
 ### Details
 
 In [`shellcode.h`](./shellcode.h), you'll find the raw assembly bytes for:
