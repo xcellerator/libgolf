@@ -20,7 +20,7 @@ Currently Supported:
 int main(int argc, char **argv)
 {
     /*
-     * Specify architecture - makes 'elf', 'ehdr' and 'phdr'  available
+     * Specify architecture - populate 'ehdr' and 'phdr'
      * Format: INIT_ELF(ISA, ARCH)
      * Supported:
      * - ISA: X86_64, ARM32, AARCH64
@@ -28,25 +28,15 @@ int main(int argc, char **argv)
      */
     INIT_ELF(X86_64,64);
 
-    /* Copy the bytes from buf[] (defined in shellcode.h) */
-    copy_text_segment(elf, buf, sizeof(buf));
-
-    /* Populate the ELF's fields with sane values */
-    ehdr = populate_ehdr(elf);
-    phdr = populate_phdr(elf);
-    set_entry_point(elf);
-
     /*
      * Customize any fields you'd like here.
      */
     ehdr->e_version = 0x13371337
 
-    /* Write ELF struct to file */
-    print_info(elf);
-    generate_elf(elf);
-
-    /* Clean up and finish */
-    cleanup(elf);
+    /*
+     * Generate the ELF file and cleanup
+     */
+    GEN_ELF();
     return 0;
 }
 ```
