@@ -5,7 +5,7 @@ CFLAGS=-I.
 PROG=arm32
 
 golf:
-	@$(CC) -w -o arm32 arm32.c
+	@$(CC) -w -o $(PROG) $(PROG).c
 	@./$(PROG)
 	@chmod +x $(PROG).bin
 	@if [ -f /usr/bin/hexyl ]; then hexyl $(PROG).bin; else xxd $(PROG).bin; fi
