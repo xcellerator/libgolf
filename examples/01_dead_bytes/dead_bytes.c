@@ -11,21 +11,13 @@
 int main(int argc, char **argv)
 {
     /*
-     * Specify architecture - makes 'elf', 'ehdr' and 'phdr' available
+     * Specify architecture - populates 'ehdr' and 'phdr'
      * Format: INIT_ELF(ISA, ARCH)
      * Supported:
      * - ISA: X86_64, ARM32, AARCH64 
      * - ARCH: 32, 64
      */
     INIT_ELF(X86_64,64);
-
-    /* Copy the bytes from buf[] (defined in shellcode.h) */
-    copy_text_segment(elf, buf, sizeof(buf));
-
-    /* Populate the binary with sane values */
-    ehdr = populate_ehdr(elf);
-    phdr = populate_phdr(elf);
-    set_entry_point(elf);
 
     /* Start of Customizations */
 
@@ -51,11 +43,7 @@ int main(int argc, char **argv)
     phdr->p_align = 0x5858585858585858;
     /* End of Customizations */
 
-    /* Write the ELF struct to a file */
-    print_info(elf);
-    generate_elf(elf);
-
-    /* Clean up and finish */
-    cleanup(elf);
+    /* Generate the ELF */
+    GEN_ELF();
     return 0;
 }

@@ -51,8 +51,16 @@ int phdr_size;
         elf->isa = x; \
         EHDR_T(b) *ehdr; \
         PHDR_T(b) *phdr; \
-        format_filename(elf, argv[0]);
+        format_filename(elf, argv[0]); \
+        copy_text_segment(elf, buf, sizeof(buf)); \
+        ehdr = populate_ehdr(elf); \
+        phdr = populate_phdr(elf); \
+        set_entry_point(elf);
 
+#define GEN_ELF() \
+        print_info(elf); \
+        generate_elf(elf); \
+        cleanup(elf);
 /*
  * This struct holds the bytes that will be executed, and the size.
  */
