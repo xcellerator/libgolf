@@ -7,6 +7,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <linux/elf.h>
 #include <limits.h>
 #include <stdlib.h>
@@ -605,11 +606,29 @@ int print_info(RawBinary *elf_ptr)
  */
 int format_filename(RawBinary *elf_ptr, char *original)
 {
+    char *ret, *exe_name;
+
     /*
-     * Strip the leading './', and append '.bin'.
+     * First assume original = "./string", skip the first two bytes
+     * and look for occurences of "/".
+     */
+    exe_name = original + 2;
+    ret = strrchr(exe_name, (char) 0x2f);        // 0x2f = "/"
+
+    if (ret != NULL)
+        /*
+         * We have a relative/absolue path, so switch our pointer to whatever
+         * strrchr() found and +1 to skip past the final "/" in the string.
+         */
+        exe_name = ret + 1;
+
+    /*
+     * Once we get here, exe_name should just be the filename of the generating
+     * binary. We allocate NAME_MAX bytes and copy the filename over before adding
+     * ".bin" for the golf'd binary.
      */
     elf_ptr->filename = malloc(NAME_MAX);
-    memcpy(elf_ptr->filename, original+2, NAME_MAX);
+    memcpy(elf_ptr->filename, exe_name, NAME_MAX-5);    // -5 to allow for ".bin\0"
     strncat(elf_ptr->filename, ".bin", 4);
     return 0;
 }
